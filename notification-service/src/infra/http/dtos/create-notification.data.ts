@@ -6,7 +6,7 @@ export class CreateNotificationData {
     public recipientId: string
 
     @IsString()
-    @Length(1, 255)
+    @Length(3, 255)
     public content: string
 
     @IsString()

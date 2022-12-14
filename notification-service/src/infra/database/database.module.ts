@@ -5,6 +5,6 @@ import { PrismaNotificationRepository } from "./prisma/repositories/notification
 
 @Module({
     providers: [SendNotification, PrismaService, PrismaNotificationRepository],
-    exports: [SendNotification, PrismaNotificationRepository, PrismaService]
+    exports: [SendNotification, PrismaService, PrismaNotificationRepository]
 })
 export class DatabaseModule {}

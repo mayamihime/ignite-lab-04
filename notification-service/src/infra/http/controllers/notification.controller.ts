@@ -5,7 +5,7 @@ import {
     Logger,
     Post,
 } from "@nestjs/common"
-import { SendNotification } from "src/use-cases/send-notification"
+import { SendNotification } from "@application/use-cases/send-notification"
 import { CreateNotificationData } from "../dtos/create-notification.data"
 
 @Controller("notifications")

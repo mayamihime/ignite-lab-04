@@ -1,4 +1,4 @@
-import { Notification } from 'src/entities/notification/notification'
+import { Notification } from '@application/entities/notification/notification'
 import { Ok, Result } from 'ts-results'
 import { NotificationRepository } from '../notification.repository'
 

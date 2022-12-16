@@ -1,3 +1,4 @@
+import { None } from "ts-results"
 import { Content } from "./content"
 import { Notification } from "./notification"
 
@@ -7,7 +8,8 @@ describe("notification", () => {
             content: Content.create("You've received a gift.")
                 .unwrap(),
             category: "misc",
-            recipientId: "ZGVleiBudXRzCg==" // (-w-)
+            recipientId: "ZGVleiBudXRzCg==", // (-w-)
+            cancelledAt: None
         })).toBeTruthy()
     })
 })

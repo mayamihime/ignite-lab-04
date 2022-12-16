@@ -16,6 +16,6 @@ lerna-debug.log*
 /.nyc_output
 
 *.env*
-*.db
+*.db*
 */migrations/*
 

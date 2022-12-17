@@ -10,18 +10,18 @@ describe("cancel notification", () => {
         const notification = Notification.create({
             content: Content.create("This should be cancelled.").unwrap(),
             category: "test",
-            recipientId: "aSdtIG91dCBvZiBpZGVhcwo="
-        })
+            recipientId: "aSdtIG91dCBvZiBpZGVhcwo=",
+        }).unwrap()
 
-        notificationRepository.create(notification)
+        await notificationRepository.create(notification)
 
-        const result = await new CancelNotification(notificationRepository)
-            .execute({ id: notification.id })
+        const result = await new CancelNotification(
+            notificationRepository
+        ).execute({ id: notification.get("id") })
 
-        // Fails if:
-        // - Notification can't be saved (either for failing validation or just being persisted).
-        // - Notification is not properly cancelled.
         expect(result.ok).toBeTruthy()
-        expect(notificationRepository.notifications[0].cancelledAt.some).toBeTruthy()
+        expect(
+            notificationRepository.notifications[0].get("cancelledAt").some
+        ).toBeTruthy()
     })
 })

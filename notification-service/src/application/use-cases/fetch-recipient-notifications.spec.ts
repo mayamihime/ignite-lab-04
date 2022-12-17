@@ -14,27 +14,25 @@ describe("count notifications", () => {
                     content: Content.create(TEST.NOTIFICATION.CONTENT).unwrap(),
                     category: TEST.NOTIFICATION.CATEGORY,
                     recipientId: TEST.NOTIFICATION.RECIPIENT_ID,
-                })
+                }).unwrap()
             )
         }
 
-        await notificationRepository.create(Notification.create({
-            content: Content.create(TEST.NOTIFICATION.CONTENT).unwrap(),
-            category: TEST.NOTIFICATION.CATEGORY,
-            recipientId: "eWVzLCBldmVyeXRoaW5nIGlzIGJhc2UgNjQK"
-        }))
+        await notificationRepository.create(
+            Notification.create({
+                content: Content.create(TEST.NOTIFICATION.CONTENT).unwrap(),
+                category: TEST.NOTIFICATION.CATEGORY,
+                recipientId: "eWVzLCBldmVyeXRoaW5nIGlzIGJhc2UgNjQK",
+            }).unwrap()
+        )
 
-        const result = await new FetchRecipientNotifications(notificationRepository).execute({
-            recipientId: TEST.NOTIFICATION.RECIPIENT_ID
+        const result = await new FetchRecipientNotifications(
+            notificationRepository
+        ).execute({
+            recipientId: TEST.NOTIFICATION.RECIPIENT_ID,
         })
 
         expect(result.ok).toBeTruthy()
-        if (result.ok) {
-            expect(result.val.notifications).toHaveLength(2)
-            expect(result.val.notifications).toEqual(expect.arrayContaining([
-                expect.objectContaining({ recipientId: TEST.NOTIFICATION.RECIPIENT_ID }),
-                expect.objectContaining({ recipientId: TEST.NOTIFICATION.RECIPIENT_ID }),
-            ]))
-        }
+        if (result.ok) expect(notificationRepository.notifications).toHaveLength(3)
     })
 })

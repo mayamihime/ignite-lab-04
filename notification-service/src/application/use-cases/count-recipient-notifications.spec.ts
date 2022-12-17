@@ -15,18 +15,22 @@ describe("count notifications", () => {
                     content: Content.create(TEST.NOTIFICATION.CONTENT).unwrap(),
                     category: TEST.NOTIFICATION.CATEGORY,
                     recipientId: TEST.NOTIFICATION.RECIPIENT_ID,
-                })
+                }).unwrap()
             )
         }
 
-        await notificationRepository.create(Notification.create({
-            content: Content.create(TEST.NOTIFICATION.CONTENT).unwrap(),
-            category: TEST.NOTIFICATION.CATEGORY,
-            recipientId: "eWVzLCBldmVyeXRoaW5nIGlzIGJhc2UgNjQK"
-        }))
+        await notificationRepository.create(
+            Notification.create({
+                content: Content.create(TEST.NOTIFICATION.CONTENT).unwrap(),
+                category: TEST.NOTIFICATION.CATEGORY,
+                recipientId: "eWVzLCBldmVyeXRoaW5nIGlzIGJhc2UgNjQK",
+            }).unwrap()
+        )
 
-        const result = await new CountRecipientNotifications(notificationRepository).execute({
-            recipientId: TEST.NOTIFICATION.RECIPIENT_ID
+        const result = await new CountRecipientNotifications(
+            notificationRepository
+        ).execute({
+            recipientId: TEST.NOTIFICATION.RECIPIENT_ID,
         })
 
         expect(result.ok).toBeTruthy()

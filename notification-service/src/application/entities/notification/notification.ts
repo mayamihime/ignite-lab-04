@@ -15,12 +15,15 @@ export interface NotificationProps {
     createdAt: Option<Date>
 }
 
-export type NotificationData = Replace<NotificationProps, {
-    content: string,
-    readAt: Date | null,
-    cancelledAt: Date | null,
-    createdAt: Date | null
-}>
+export type NotificationData = Replace<
+    NotificationProps,
+    {
+        content: string
+        readAt: Date | null
+        cancelledAt: Date | null
+        createdAt: Date | null
+    }
+>
 
 export type CreateNotification = Replace<
     NotificationProps,
@@ -93,19 +96,19 @@ export class Notification {
                     "id"
                 )})`
             )
-        this.props.cancelledAt = None
+        this.props.cancelledAt = Some(new Date())
     }
 
     /**
-    * Returns a more response friendly representation of the data.
-    */
+     * Returns a more response friendly representation of the data.
+     */
     public toData(): NotificationData {
         return {
             ...this.props,
             content: this.get("content").value,
             createdAt: this.get("createdAt").unwrapOr(null),
             readAt: this.get("readAt").unwrapOr(null),
-            cancelledAt: this.get("cancelledAt").unwrapOr(null)
+            cancelledAt: this.get("cancelledAt").unwrapOr(null),
         }
-    } 
+    }
 }

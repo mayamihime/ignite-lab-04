@@ -1,4 +1,4 @@
-import { Notification, NotificationData } from "@application/entities/notification/notification"
+import {  NotificationData } from "@application/entities/notification/notification"
 import { NotificationRepository } from "@application/repositories/notification.repository"
 import { Injectable, Logger } from "@nestjs/common"
 import { Err, Ok, Result } from "ts-results"

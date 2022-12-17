@@ -10,15 +10,15 @@ describe("read notification", () => {
         const notification = Notification.create({
             content: Content.create("This should be read.").unwrap(),
             category: "test",
-            recipientId: "aSdtIG91dCBvZiBpZGVhcwo="
-        })
-
+            recipientId: "aSdtIG91dCBvZiBpZGVhcwo=",
+        }).unwrap()
         notificationRepository.create(notification)
 
-        const result = await new ReadNotification(notificationRepository)
-            .execute({ id: notification.id })
+        const result = await new ReadNotification(
+            notificationRepository
+        ).execute({ id: notification.get("id")})
 
         expect(result.ok).toBeTruthy()
-        expect(notificationRepository.notifications[0].readAt.some).toBeTruthy()
+        expect(notificationRepository.notifications[0].get("readAt").some).toBeTruthy()
     })
 })

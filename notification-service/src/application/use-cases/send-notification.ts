@@ -3,6 +3,7 @@ import { Err, Ok, Result } from "ts-results"
 import { Content } from "../entities/notification/content"
 import { Notification } from "../entities/notification/notification"
 import { NotificationRepository } from "@application/repositories/notification.repository"
+import { NotFoundError } from "@errors/not-found.error"
 
 export interface SendNotificationRequest {
     content: string
@@ -22,7 +23,7 @@ export class SendNotification {
 
     async execute(
         request: SendNotificationRequest
-    ): Promise<Result<SendNotificationResponse, Error>> {
+    ): Promise<Result<SendNotificationResponse, NotFoundError | Error>> {
         const { content, recipientId, category } = request
 
         try {

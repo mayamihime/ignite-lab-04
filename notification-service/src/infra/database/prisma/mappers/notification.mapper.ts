@@ -8,7 +8,7 @@ export class PrismaNotificationMapper {
     /**
      * Converts a Notification instance to a Notification database entity.
      */
-    public static toPrisma(notification: Notification) { // todo: change return to Result
+    public static toPrisma(notification: Notification) {
         return {
             id: notification.get("id"),
             content: notification.get("content").value,

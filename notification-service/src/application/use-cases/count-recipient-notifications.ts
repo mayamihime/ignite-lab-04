@@ -1,4 +1,5 @@
 import { NotificationRepository } from "@application/repositories/notification.repository";
+import { NotFoundError } from "@errors/not-found.error";
 import { Injectable, Logger } from "@nestjs/common";
 import { Err, Ok, Result } from "ts-results";
 
@@ -16,7 +17,7 @@ export class CountRecipientNotifications {
 
     constructor(private notificationRepository: NotificationRepository) {}
 
-    public async execute(request: CountRecipientNotificationsRequest): Promise<Result<CountRecipientNotificationsResponse, Error>> {
+    public async execute(request: CountRecipientNotificationsRequest): Promise<Result<CountRecipientNotificationsResponse, NotFoundError | Error>> {
         const { recipientId } = request
         
         try {

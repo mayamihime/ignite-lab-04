@@ -12,7 +12,6 @@ export class UnreadNotification {
     private static logger = new Logger(UnreadNotification.name)
     constructor(private notificationRepository: NotificationRepository) {}
 
-    // todo: change error to be more specific
     async execute(
         request: UnreadNotificationRequest
     ): Promise<Result<void, NotFoundError | Error>> {

@@ -1,5 +1,6 @@
 import {  NotificationData } from "@application/entities/notification/notification"
 import { NotificationRepository } from "@application/repositories/notification.repository"
+import { NotFoundError } from "@errors/not-found.error"
 import { Injectable, Logger } from "@nestjs/common"
 import { Err, Ok, Result } from "ts-results"
 
@@ -18,7 +19,7 @@ export class FetchRecipientNotifications {
 
     public async execute(
         request: FetchRecipientNotificationsRequest
-    ): Promise<Result<FetchRecipientNotificationsResponse, Error>> {
+    ): Promise<Result<FetchRecipientNotificationsResponse, NotFoundError | Error>> {
         const { recipientId } = request
 
         try {

@@ -4,6 +4,7 @@ import {
     Get,
     InternalServerErrorException,
     Logger,
+    NotFoundException,
     Param,
     Patch,
     Post,
@@ -16,8 +17,8 @@ import { CountRecipientNotifications } from "@application/use-cases/count-recipi
 import { FetchRecipientNotifications } from "@application/use-cases/fetch-recipient-notifications"
 import { ReadNotification } from "@application/use-cases/read-notification"
 import { UnreadNotification } from "@application/use-cases/unread-notification"
+import { NotFoundError } from "@errors/not-found.error"
 
-// todo: implement proper error handling instead of throwing 500
 @Controller("notifications")
 export class NotificationController {
     private logger = new Logger(NotificationController.name)
@@ -52,6 +53,7 @@ export class NotificationController {
                 `Failed to create notification: ${result.val.name} - ${result.val.message}`,
                 result.val.stack
             )
+
             throw new InternalServerErrorException()
         }
     }
@@ -64,6 +66,12 @@ export class NotificationController {
 
         if (result.err) {
             this.logger.error(`Failed to cancel notification: ${result.val}`)
+
+            if (result.val instanceof NotFoundError) {
+                throw new NotFoundException(
+                    "Could not find notification, check if you've got the ID correct."
+                )
+            }
             throw new InternalServerErrorException(
                 "Failed to cancel notification."
             )
@@ -92,10 +100,18 @@ export class NotificationController {
         })
 
         if (result.ok) return result.val
-        else this.logger.error(`Failed to fetch notifications: ${result.val}`)
-        throw new InternalServerErrorException(
-            "Failed to fetch notifications by recipient."
-        )
+        else {
+            this.logger.error(`Failed to fetch notifications: ${result.val}`)
+
+            if (result.val instanceof NotFoundError)
+                throw new NotFoundException(
+                    "Could not find notification, check if you've got the ID correct."
+                )
+
+            throw new InternalServerErrorException(
+                "Failed to fetch notifications by recipient."
+            )
+        }
     }
 
     @Patch("/:id/read")
@@ -106,6 +122,12 @@ export class NotificationController {
             this.logger.error(
                 `Failed to mark notification as read: ${result.val}`
             )
+
+            if (result.val instanceof NotFoundException) {
+                throw new NotFoundException(
+                    "Could not find notification, check if you've got the ID correct."
+                )
+            }
             throw new InternalServerErrorException(
                 "Failed to mark notification as read."
             )
@@ -120,6 +142,12 @@ export class NotificationController {
             this.logger.error(
                 `Failed to mark notification as unread: ${result.val}`
             )
+
+            if (result.val instanceof NotFoundException) {
+                throw new NotFoundException(
+                    "Could not find notification, check if you've got the ID correct."
+                )
+            }
             throw new InternalServerErrorException(
                 "Failed  to mark notification as unread."
             )
